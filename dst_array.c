@@ -1,4 +1,4 @@
-/*Array implementation of ist for operations:
+/*Array implementation of list for operations:
 	-insert data
 	-remove it
 	-count elements
@@ -32,15 +32,21 @@ void modify(int index,int x)
 void insert_at_end(int x)
 {
 	if(end>= MAX_SIZE-1)
+	{
+		printf("Array Overflow\n");
 		return;
+	}
 
 	arr[++end]=x;
 }
 
-void insert(int x,int index)
+void insert(int x,int index)		//To insert an element in between the array. So array elements are shifted
 {
-	if(end>= MAX_SIZE-1 || index<0)
+	if(end>= MAX_SIZE-1)
+	{
+		printf("Array Overflow\n");
 		return;
+	}
 
 	int i;
 	for(i=end+1;i>index;i--)
@@ -54,16 +60,20 @@ void insert(int x,int index)
 void delete_from_end()
 {
 	if(end==-1)
+	{
+		printf("Array Underflow\n");
 		return;
-
+	}
 	end--;
 }
 
-void delete(int index)
+void delete(int index)		//To delete an element from in between the array. So array elements are shifted
 {
-	if(index<0 || index>end)
+	if(index>end)
+	{
+		printf("Array Underflow\n");
 		return;
-
+	}
 	int i;
 	for(i=index;i<end;i++)
 	{
@@ -74,5 +84,12 @@ void delete(int index)
 
 int main()
 {
+	int n,i;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&a[i]);
+	}
+	//Now you can perform the operations on array here using above functions.
 	return 0;
 }
