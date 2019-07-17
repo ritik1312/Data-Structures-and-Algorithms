@@ -1,3 +1,4 @@
+//Linked list implementation of queue
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -46,5 +47,12 @@ void dequeue(struct node **f,struct node **r)
 int main()
 {
 	struct node *front=NULL,*rear=NULL;
+	int n,i,x;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&x);
+		enqueue(&front,&rear,x);
+	}
 	return 0;
 }
