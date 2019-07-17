@@ -108,7 +108,8 @@ int main()
 	}
 	scanf("%d",&(temp->val));
 	temp->next=NULL;
-
+	
+	// All the operations on the list can be performed here
 	print(head);
 	return 0;
 }
