@@ -13,10 +13,8 @@ struct node* getnode()
 	return temp;
 }
 
-void reverse_list(struct node **head)
+void reverse_list(struct node **head)		//list reversal using loop
 {
-	if(*head==NULL)
-		return;
 	struct node *curr,*prev,*forw;
 	prev=NULL;
 	curr=*head;
@@ -24,19 +22,36 @@ void reverse_list(struct node **head)
 	{
 		forw=curr->next;
 		curr->next=prev;
-		curr=forw;
 		prev=curr;
+		curr=forw;
 	}
+	*head=prev;
+}
+
+void reverse_list_rec(struct node **head,struct node *p)		//list reversal using recursion
+{
+	if(p->next==NULL)
+		return;
+	reverse_list_rec(head,p->next);
+	struct node *q=p->next;
+	q->next=p;
+	p->next=NULL;
 }
 
 void print(struct node *p)
 {
-	while(p!=NULL)
-	{
-		printf("%d ",p->val);
-		p=p->next;
-	}
-	printf("\n");
+	if(p==NULL)
+		return;
+	printf("%d ",p->val);
+	print(p->next);
+}
+
+void revprint(struct node *p)		// print the list in reverse order and not reverses the list
+{
+	if(p==NULL)
+		return;
+	print(p->next);
+	printf("%d ",p->val);
 }
 
 int main()
