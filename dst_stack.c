@@ -1,3 +1,4 @@
+//Linked list implementation of stack
 #include <stdio.h>
 #include <stdlib.h>
 
