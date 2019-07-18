@@ -76,7 +76,7 @@ int main()
 
 	struct node *temp,*head=getnode();
 	temp=head;
-	for(i=0;i<n-1;i++)
+	for(i=0;i<n-1;i++)	// Simultaneously taking input
 	{
 		scanf("%d",&(temp->val));
 		temp->next=getnode();
@@ -84,5 +84,8 @@ int main()
 		temp=temp->next;
 	}
 	scanf("%d",&(temp->val));
+	
+	reverse(&head);
+	print(head);
 	return 0;
 }
