@@ -17,6 +17,14 @@ struct node* getnode()
 	return temp;
 }
 
+int isEmpty(struct node *top)
+{
+	if(top==NULL)
+		return 1;
+	else
+		return 0;
+}
+
 void push(struct node **top,int x)
 {
 	struct node *temp=getnode();
@@ -28,11 +36,28 @@ void push(struct node **top,int x)
 
 void pop(struct node **top)
 {
-	if(*top==NULL)
+	if(isEmpty(*top))
 		return;
 	struct node *temp=*top;
 	*top=temp->next;
 	free(temp);
+}
+
+int Top(struct node *top)
+{
+	if(isEmpty(*top))
+		return top->val;
+}
+
+void print(struct node *p)
+{
+	if(p==NULL)
+	{
+		printf("\n");
+		return;
+	}
+	printf("%d ",p->val);
+	print(p->next);
 }
 
 int main()
