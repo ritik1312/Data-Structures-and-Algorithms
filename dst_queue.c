@@ -1,4 +1,6 @@
 //Linked list implementation of queue
+//Queue is a type of linked list with restriction that element can be inserted from one end and removed from other end only.
+//It works on FIFO(First In First Out)
 #include <stdio.h>
 #include <stdlib.h>
 
