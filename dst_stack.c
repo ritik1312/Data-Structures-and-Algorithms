@@ -1,4 +1,6 @@
 //Linked list implementation of stack
+//Stack is a type of linked list with restriction that element can be inserted and removed from one end only.
+//It works on LIFO(Last In First Out)
 #include <stdio.h>
 #include <stdlib.h>
 
