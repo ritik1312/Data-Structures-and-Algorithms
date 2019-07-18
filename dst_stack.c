@@ -35,5 +35,12 @@ void pop(struct node **top)
 int main()
 {
 	struct node *top=NULL;
+	int n,i,x;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&x);
+		push(&top,x);
+	}
 	return 0;
 }
