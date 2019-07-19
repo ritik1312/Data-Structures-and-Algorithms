@@ -58,14 +58,12 @@ int min_val(struct node *root)
 	return root->val;
 }
 
-int max(int a,int b)
+int max(int a,int b)	// for height function
 {
-    if(a>b)
-        return a;
+    if(a>b)	return a;
     else
         return b;
 }
-
 int height(struct node *root)
 {
     if(root==NULL)
@@ -98,6 +96,16 @@ void postorder_print(struct node *root)
 	postorder_print(root->left);
 	postorder_print(root->right);
 	printf("%d ",root->val);
+}
+
+void print_leaves(struct node *root)
+{
+	if(root==NULL)
+		return;
+	print_leaves(root->left);
+	if(root->left==NULL && root->right==NULL)
+		printf("%d ",root->val);
+	print_leaves(root->right);
 }
 
 int main()
