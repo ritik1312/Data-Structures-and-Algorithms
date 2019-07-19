@@ -1,5 +1,9 @@
-//Binary Search Tree(BST) is a type of tree in which the value of each node is always greater than all the nodes in its left 
-//subtree and smaller than all the nodes in its right subtree.
+//These are types of traversal in binsry search tree
+//1.Level order traversal
+//2.Depth first traversal
+//	a.preorder traversal
+//	b.inorder traversal
+//	c.postorder traversal
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,6 +12,7 @@ struct node
 	int val;
 	struct node *left;
 	struct node *right;
+	struct node *next;		// *next only used in queue in level order traversal
 };
 
 struct node *getnode(int x)
@@ -26,49 +31,6 @@ void insert(struct node **root,int x)
 		insert(&((*root)->left),x);
 	else
 		insert(&((*root)->right),x);
-}
-
-int search(struct node *root,int x)
-{
-	if(root==NULL)
-		return 0;
-	if(root->val==x)
-		return 1;
-	else if(x<=root->val)
-		return search(root->left,x);
-	else
-		return search(root->right,x);
-}
-
-int max_val(struct node *root)
-{
-	if(root==NULL)
-		return -1;
-	while(root->right!=NULL)
-		root=root->right;
-	return root->val;
-}
-
-int min_val(struct node *root)
-{
-	if(root==NULL)
-		return -1;
-	while(root->left!=NULL)
-		root=root->left;
-	return root->val;
-}
-
-int max(int a,int b)	// for height function
-{
-    if(a>b)	return a;
-    else
-        return b;
-}
-int height(struct node *root)
-{
-    if(root==NULL)
-        return -1;
-    return 1+max(height(root->left),height(root->right));
 }
 
 void inorder_print(struct node *root)
@@ -98,14 +60,41 @@ void postorder_print(struct node *root)
 	printf("%d ",root->val);
 }
 
-void print_leaves(struct node *root)
+
+void enqueue(struct node **f,struct node **r,struct node *temp)		//queue operations for level order traversal
+{
+	if(*f==NULL)
+	{
+		*f=*r=temp;
+		return;
+	}
+	*r->next=temp;
+	*r=temp;
+}
+void dequeue(struct node **f,struct node **r)
+{
+	if(*f==NULL)	return;
+	if(*f==*r)
+	{
+		*f=*r=NULL;
+	}
+	else
+		*f=(*f)->next;
+}
+void Lev_Ord_Traversal(struct node *root)
 {
 	if(root==NULL)
 		return;
-	print_leaves(root->left);
-	if(root->left==NULL && root->right==NULL)
-		printf("%d ",root->val);
-	print_leaves(root->right);
+	struct node *front=NULL,*rear=NULL;
+	enqueue(&front,&rear,root);
+	while(front!=NULL)
+	{
+		printf("%d ",front->val);
+		if(front->left!=NULL)	enqueue(&front,&rear,front->left);
+		if(front->right!=NULL)	enqueue(&front,&rear,front->right);
+		dequeue(&front,&rear);
+	}
+	printf("\n");
 }
 
 int main()
@@ -118,7 +107,7 @@ int main()
 		scanf("%d",&x);
 		insert(&root,x);
 	}
+	Lev_Ord_print(root);
 	inorder_print(root);
-	printf("\n%d\n",height(root));
 	return 0;
 }
