@@ -27,7 +27,7 @@ void insert(struct node **root,int x)
 		insert(&((*root)->right),x);
 }
 
-int isSubtreeLesser(struct node *root,int x)
+int isSubtreeLesser(struct node *root,int x)		//for isBST() function
 {
 	if(root==NULL)	return 1;
 	if(x>=root->val && isSubtreeLesser(root->left,x) && isSubtreeLesser(root->right,x))
@@ -35,7 +35,7 @@ int isSubtreeLesser(struct node *root,int x)
 	else
 		return 0;
 }
-int isSubtreeGreater(struct node *root,int x)
+int isSubtreeGreater(struct node *root,int x)		//for isBST() function
 {
 	if(root==NULL)	return 1;
 	if(x<=root->val && isSubtreeGreater(root->left,x) && isSubtreeGreater(root->right,x))
@@ -53,14 +53,18 @@ int isBST(struct node *root)
 		return 0;
 }
 
-int isBST_faster(struct node *root,int min,int max)	   //min and max are initially -INF and +INF respectively
+int isBST_Util(struct node *root,int min,int max)	//for isBST_faster function only
 {
 	if(root==NULL)	return 1;
 	if(root->val<=min && root->val>=max 
-		&& isBST(root->left,min,root->val) && isBST(root->right,root->val,max))
+		&& isBST_Util(root->left,min,root->val) && isBST_Util(root->right,root->val,max))
 		return 1;
 	else
 		return 0;
+}
+int isBST_faster(struct node *root)
+{
+	return isBST_Util(root,INT_MIN,INT_MAX);
 }
 
 int main()
