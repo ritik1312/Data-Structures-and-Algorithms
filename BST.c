@@ -1,9 +1,4 @@
-//These are types of traversal in binsry search tree
-//1.Level order traversal
-//2.Depth first traversal
-//	a.preorder traversal
-//	b.inorder traversal
-//	c.postorder traversal
+// To check whether tree is balanced or not
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,7 +7,6 @@ struct node
 	int val;
 	struct node *left;
 	struct node *right;
-	struct node *next;		// *next only used in queue in level order traversal
 };
 
 struct node *getnode(int x)
@@ -33,68 +27,40 @@ void insert(struct node **root,int x)
 		insert(&((*root)->right),x);
 }
 
-void inorder_print(struct node *root)
+int isSubtreeLesser(struct node *root,int x)
 {
-	if(root==NULL)
-		return;
-	inorder_print(root->left);
-	printf("%d ",root->val);
-	inorder_print(root->right);
-}
-
-void preorder_print(struct node *root)
-{
-	if(root==NULL)
-		return;
-	printf("%d ",root->val);
-	preorder_print(root->left);
-	preorder_print(root->right);
-}
-
-void postorder_print(struct node *root)
-{
-	if(root==NULL)
-		return;
-	postorder_print(root->left);
-	postorder_print(root->right);
-	printf("%d ",root->val);
-}
-
-
-void enqueue(struct node **f,struct node **r,struct node *temp)		//queue operations for level order traversal
-{
-	if(*f==NULL)
-	{
-		*f=*r=temp;
-		return;
-	}
-	*r->next=temp;
-	*r=temp;
-}
-void dequeue(struct node **f,struct node **r)
-{
-	if(*f==NULL)	return;
-	if(*f==*r)
-	{
-		*f=*r=NULL;
-	}
+	if(root==NULL)	return 1;
+	if(x>=root->val && isSubtreeLesser(root->left,x) && isSubtreeLesser(root->right,x))
+		return 1;
 	else
-		*f=(*f)->next;
+		return 0;
 }
-void Lev_Ord_Traversal(struct node *root)
+int isSubtreeGreater(struct node *root,int x)
 {
-	if(root==NULL)
-		return;
-	struct node *front=NULL,*rear=NULL;
-	enqueue(&front,&rear,root);
-	while(front!=NULL)
-	{
-		printf("%d ",front->val);
-		if(front->left!=NULL)	enqueue(&front,&rear,front->left);
-		if(front->right!=NULL)	enqueue(&front,&rear,front->right);
-		dequeue(&front,&rear);
-	}
-	printf("\n");
+	if(root==NULL)	return 1;
+	if(x<=root->val && isSubtreeGreater(root->left,x) && isSubtreeGreater(root->right,x))
+		return 1;
+	else
+		return 0;
+}
+int isBST(struct node *root)
+{
+	if(root==NULL)	return 1;
+	if(isSubtreeLesser(root->left,root->val) && isSubtreeGreater(root->right,root->val)
+	 && isBST(root->left) && isBST(root->right))
+		return 1;
+	else
+		return 0;
+}
+
+int isBST_faster(struct node *root,int min,int max)	   //min and max are initially -INF and +INF respectively
+{
+	if(root==NULL)	return 1;
+	if(root->val<=min && root->val>=max 
+		&& isBST(root->left,min,root->val) && isBST(root->right,root->val,max))
+		return 1;
+	else
+		return 0;
 }
 
 int main()
@@ -107,7 +73,5 @@ int main()
 		scanf("%d",&x);
 		insert(&root,x);
 	}
-	Lev_Ord_print(root);
-	inorder_print(root);
 	return 0;
 }
