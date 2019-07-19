@@ -61,7 +61,7 @@ int main()
 	for(i=0;i<n;i++)
 	{
 		scanf("%d",&x);
-		push(x);
+		enqueue(x);
 	}
 	print();
 	return 0;
