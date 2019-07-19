@@ -71,33 +71,6 @@ int height(struct node *root)
     return 1+max(height(root->left),height(root->right));
 }
 
-void inorder_print(struct node *root)
-{
-	if(root==NULL)
-		return;
-	inorder_print(root->left);
-	printf("%d ",root->val);
-	inorder_print(root->right);
-}
-
-void preorder_print(struct node *root)
-{
-	if(root==NULL)
-		return;
-	printf("%d ",root->val);
-	preorder_print(root->left);
-	preorder_print(root->right);
-}
-
-void postorder_print(struct node *root)
-{
-	if(root==NULL)
-		return;
-	postorder_print(root->left);
-	postorder_print(root->right);
-	printf("%d ",root->val);
-}
-
 void print_leaves(struct node *root)
 {
 	if(root==NULL)
@@ -106,6 +79,15 @@ void print_leaves(struct node *root)
 	if(root->left==NULL && root->right==NULL)
 		printf("%d ",root->val);
 	print_leaves(root->right);
+}
+
+void print_tree(struct node *root)
+{
+	if(root)==NULL;
+		return;
+	printf("%d ",root->val);
+	print_tree(root->left);
+	print_tree(root->right);
 }
 
 int main()
@@ -118,7 +100,7 @@ int main()
 		scanf("%d",&x);
 		insert(&root,x);
 	}
-	inorder_print(root);
+	print_tree(root);
 	printf("\n%d\n",height(root));
 	return 0;
 }
