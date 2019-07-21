@@ -88,6 +88,5 @@ int main()
 		insert(&root,x);
 	}
 	print_tree(root);
-	printf("\n%d\n",height(root));
 	return 0;
 }
