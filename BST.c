@@ -1,5 +1,3 @@
-//Binary Search Tree(BST) is a type of tree in which the value of each node is always greater than all the nodes in its left 
-//subtree and smaller than all the nodes in its right subtree.
 #include <stdio.h>
 #include <stdlib.h>
 
