@@ -28,57 +28,44 @@ void insert(struct node **root,int x)
 		insert(&((*root)->right),x);
 }
 
-int search(struct node *root,int x)
+struct node *find_Min(struct node *root)
 {
-	if(root==NULL)
-		return 0;
-	if(root->val==x)
-		return 1;
-	else if(x<=root->val)
-		return search(root->left,x);
-	else
-		return search(root->right,x);
-}
-
-int max_val(struct node *root)
-{
-	if(root==NULL)
-		return -1;
-	while(root->right!=NULL)
-		root=root->right;
-	return root->val;
-}
-
-int min_val(struct node *root)
-{
-	if(root==NULL)
-		return -1;
 	while(root->left!=NULL)
 		root=root->left;
-	return root->val;
+	return root;
 }
-
-int max(int a,int b)	// for height function
+struct node* delete(struct node *root,int x)
 {
-    if(a>b)	return a;
-    else
-        return b;
-}
-int height(struct node *root)
-{
-    if(root==NULL)
-        return -1;
-    return 1+max(height(root->left),height(root->right));
-}
-
-void print_leaves(struct node *root)
-{
-	if(root==NULL)
-		return;
-	print_leaves(root->left);
-	if(root->left==NULL && root->right==NULL)
-		printf("%d ",root->val);
-	print_leaves(root->right);
+	if(root==NULL)		return root;
+	if(x<root->val)		return delete(root->left,x);
+	if(x>root->val)		return delete(root->right,x);
+	else
+	{
+		if(root->left==NULL && root->right==NULL)
+		{
+			free(root);
+			root=NULL;
+		}
+		else if(root->left==NULL)
+		{
+			struct node *temp=root;
+			root=root->right;
+			free(temp);
+		}
+		else if(root->right==NULL)
+		{
+			struct node *temp=root;
+			root=root->left;
+			free(temp);
+		}
+		else
+		{
+			struct node *temp=find_Min(root->right);
+			root->val=temp->val;
+			delete(root->right,temp->val);
+		}
+		return root;
+	}
 }
 
 void print_tree(struct node *root)
