@@ -56,7 +56,7 @@ int isBST(struct node *root)
 int isBST_Util(struct node *root,int min,int max)	//for isBST_faster function only
 {
 	if(root==NULL)	return 1;
-	if(root->val<=min && root->val>=max 
+	if(root->val>=min && root->val<=max 
 		&& isBST_Util(root->left,min,root->val) && isBST_Util(root->right,root->val,max))
 		return 1;
 	else
