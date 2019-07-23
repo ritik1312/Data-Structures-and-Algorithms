@@ -8,63 +8,7 @@ struct node
 	int val;				//for weighted graph
 	struct node *next;
 };
-#include <stdio.h>
-#include <stdlib.h>
 
-struct node
-{
-	int val;
-	struct node *next;
-	int weight;				//for weighted graph
-};
-
-struct node* getnode(int x,int w)
-{
-	struct node *temp=(struct node*)malloc(sizeof(struct node));
-	temp->val=x;
-	temp->weight=w;
-	temp->next=NULL;
-	return temp;
-}
-
-void add(struct node **head,int x)
-{
-	struct node *temp=getnode(x);
-	temp->next=*head;
-	*head=temp;
-}
-
-void show_list(struct node *head[],int n)
-{
-	int i;
-	for(i=1;i<=n;i++)
-	{
-		printf("%d - ",i);
-		struct node *temp=head[i];
-		while(temp->next!=NULL)
-			printf("%d ",temp->val);
-		printf("\n");
-	}
-	printf("\n");
-}
-
-int main()
-{
-	int v,e,x,y,i,w;
-	scanf("%d%d",&v,&e);	// 'v' is no. of vertices & e is no. of edges
-	struct node *head[v+1];
-	for(i=0;i<=v;i++)
-		head[i]=NULL;
-	for(i=0;i<e;i++)
-	{
-		scanf("%d%d%d",&x,&y,&w);		// 'w' is weight of each edge
-		add(&head[x],y,w);
-		add(&head[y],x,w);
-	}
-
-	show_list(head,v);
-	return 0;
-}
 struct node* getnode(int x)
 {
 	struct node *temp=(struct node*)malloc(sizeof(struct node));
@@ -76,9 +20,17 @@ struct node* getnode(int x)
 void add(struct node **head,int x)
 {
 	struct node *temp=getnode(x);
-	temp->next=*head;
-	*head=temp;
+	if(*head==NULL)
+	{
+	    *head=temp;
+	    return;
+	}
+	struct node *p=*head;
+	while(p->next!=NULL)
+	    p=p->next;
+	p->next=temp;
 }
+
 void enqueue(struct node **f,struct node **r,int x)
 {
 	struct node *temp=getnode(x);
@@ -98,10 +50,11 @@ void dequeue(struct node **f,struct node **r)
 	{
 		*f=*r=NULL;
 	}
-	*f=(*f)->next;
-	free(temp);
+	else
+	    *f=(*f)->next;
+ 	free(temp);
 }
-void BFS(struct node *head[],int v,int s)
+void BFT(struct node *head[],int v,int s)	//Breadth first traversal
 {
 	int i,x;
 	bool visited[v+1];
@@ -126,11 +79,33 @@ void BFS(struct node *head[],int v,int s)
 		}
 		dequeue(&front,&rear);
 	}
-	for(i=1;i<v;i++)
+	for(i=1;i<=v;i++)
 	{
 		if(!visited[i])
 			printf("%d ",i);
 	}
+	printf("\n");
+}
+
+void DF_Print(struct node **head,int v,bool a[])
+{
+	a[v]=true;
+	printf("%d ",v);
+	struct node *i;
+	for(i=head[v];i!=NULL;i=i->next)
+	{
+		if(!a[i->val])
+			DF_Print(head,i->val,a);
+	}
+}
+
+void DFT(struct node *head[],int v,int s)	//Depth first traversal
+{
+	int i;
+	bool visited[v+1];
+	for(i=0;i<=v;i++)
+		visited[i]=false;
+	DF_Print(head,s,visited);
 }
 
 void show_list(struct node *head[],int n)
@@ -140,7 +115,7 @@ void show_list(struct node *head[],int n)
 	{
 		printf("%d - ",i);
 		struct node *temp;
-		for(temp=head[i];temp->next!=NULL;temp=temp->next)
+		for(temp=head[i];temp!=NULL;temp=temp->next)
 		{
 		    printf("%d ",temp->val);
 		}
@@ -151,18 +126,18 @@ void show_list(struct node *head[],int n)
 
 int main()
 {
-	int v,e,x,y,i;
+	int v,e,x,y,i,s;
 	scanf("%d%d",&v,&e);	// 'v' is no. of vertices & e is no. of edges
 	struct node *head[v+1];
 	for(i=0;i<=v;i++)
 		head[i]=NULL;
 	for(i=0;i<e;i++)
 	{
-		scanf("%d%d%d",&x,&y);		// 'w' is weight of each edge
+		scanf("%d%d",&x,&y);		// 'w' is weight of each edge
 		add(&head[x],y);
 		add(&head[y],x);
 	}
-
-	show_list(head,v);
+	scanf("%d",&s);
+	DFT(head,v,s);
 	return 0;
 }
