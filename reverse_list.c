@@ -31,7 +31,10 @@ void reverse_list(struct node **head)		//list reversal using loop
 void reverse_list_rec(struct node **head,struct node *p)		//list reversal using recursion
 {
 	if(p->next==NULL)
+	{
+		*head = p;
 		return;
+	}
 	reverse_list_rec(head,p->next);
 	struct node *q=p->next;
 	q->next=p;
